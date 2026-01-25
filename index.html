@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Lamp Controller</title>
+    <style>
+        :root { --glow-color: #ffd700; --bg: #0f172a; }
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+        h1 { font-weight: 300; margin-bottom: 2rem; letter-spacing: 2px; }
+        .lamp-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: none;
+            background: #1e293b;
+            cursor: pointer;
+            font-size: 2rem;
+            transition: 0.4s ease;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            color: #475569;
+        }
+        .lamp-btn.active {
+            background: var(--glow-color);
+            color: #000;
+            box-shadow: 0 0 40px var(--glow-color);
+        }
+        .status { margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.6; }
+        .connect-btn {
+            margin-bottom: 2rem;
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--glow-color);
+            background: transparent;
+            color: var(--glow-color);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button class="connect-btn" id="connect">Connect Bluetooth</button>
+    <h1>SMART LAMP</h1>
+    <button class="lamp-btn" id="lampToggle">💡</button>
+    <p class="status" id="status">Status: Disconnected</p>
+</div>
+
+<script>
+    const serviceUuid = "0000ffe0-0000-1000-8000-00805f9b34fb";
+    const charUuid = "0000ffe1-0000-1000-8000-00805f9b34fb";
+    let characteristic;
+    let isLampOn = false;
+
+    document.getElementById('connect').addEventListener('click', async () => {
+        try {
+            const device = await navigator.bluetooth.requestDevice({
+                filters: [{ services: [serviceUuid] }]
+            });
+            const server = await device.gatt.connect();
+            const service = await server.getPrimaryService(serviceUuid);
+            characteristic = await service.getCharacteristic(charUuid);
+            document.getElementById('status').innerText = "Status: Connected to " + device.name;
+            document.getElementById('connect').style.display = "none";
+        } catch (error) {
+            console.log("Error: " + error);
+        }
+    });
+
+    document.getElementById('lampToggle').addEventListener('click', async () => {
+        if (!characteristic) return alert("Please connect first!");
+        
+        isLampOn = !isLampOn;
+        const command = isLampOn ? "1" : "0";
+        const encoder = new TextEncoder();
+        
+        await characteristic.writeValue(encoder.encode(command));
+        
+        document.getElementById('lampToggle').classList.toggle('active', isLampOn);
+        document.getElementById('status').innerText = `Lamp is ${isLampOn ? 'ON' : 'OFF'}`;
+    });
+</script>
+</body>
+</html>
