@@ -3,116 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desk Lamp | Cosmic Control</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <title>Desk Lamp | Cozy Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --glow: #00d4ff;
-            --space-bg: #020617;
-            --glass: rgba(15, 23, 42, 0.7);
+            --accent: #ffb347;
+            --bg: #121212;
+            --card-bg: rgba(255, 255, 255, 0.04);
         }
 
         body {
-            margin: 0; background: var(--space-bg); color: white;
-            font-family: 'Quicksand', sans-serif;
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; overflow: hidden;
+            margin: 0; background-color: var(--bg); color: #fff;
+            font-family: 'Outfit', sans-serif;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
 
-        /* Star Background */
-        .stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, #0f172a, #1e1b4b); z-index: -1; }
-        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: twinkle var(--duration) infinite ease-in-out; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
-
-        .card {
-            background: var(--glass); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 40px; padding: 2.5rem; width: 340px; text-align: center;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5); position: relative;
+        /* Cozy Glow Background */
+        body::before {
+            content: ''; position: absolute; width: 300px; height: 300px;
+            background: var(--accent); filter: blur(150px); opacity: 0.15; z-index: -1;
         }
 
-        /* The Timer Display */
-        #countdown-display {
-            font-size: 2.5rem; font-weight: 300; margin: 10px 0;
-            color: var(--glow); text-shadow: 0 0 15px var(--glow);
-            display: none;
+        .container {
+            width: 350px; padding: 2.5rem; border-radius: 40px;
+            background: var(--card-bg); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08); text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .nova-button {
-            width: 100px; height: 100px; border-radius: 50%; border: none;
-            background: #0f172a; cursor: pointer; font-size: 2rem;
-            position: relative; transition: 0.5s; margin-bottom: 1.5rem;
+        h1 { font-weight: 300; letter-spacing: 2px; font-size: 1.5rem; margin-bottom: 2rem; opacity: 0.9; }
+
+        /* The Main Switch */
+        .lamp-switch {
+            width: 140px; height: 140px; border-radius: 50%; border: none;
+            background: rgba(255,255,255,0.03); cursor: pointer; transition: 0.4s ease;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 2.5rem; border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .nova-button.active { background: #fff; box-shadow: 0 0 30px var(--glow); }
+        .lamp-switch svg { width: 50px; fill: rgba(255,255,255,0.2); transition: 0.4s; }
 
-        .timer-hud { background: rgba(0, 0, 0, 0.2); border-radius: 20px; padding: 1.2rem; }
-        .input-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .unit { display: flex; flex-direction: column; }
+        .lamp-switch.active {
+            background: var(--accent);
+            box-shadow: 0 0 50px rgba(255, 179, 71, 0.4);
+            border-color: var(--accent);
+        }
+
+        .lamp-switch.active svg { fill: #000; filter: drop-shadow(0 0 5px rgba(0,0,0,0.2)); }
+
+        /* Timer HUD */
+        .timer-section {
+            background: rgba(0,0,0,0.2); border-radius: 25px; padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .countdown-text {
+            font-size: 2rem; font-weight: 300; color: var(--accent);
+            margin-bottom: 1rem; display: none; font-variant-numeric: tabular-nums;
+        }
+
+        .time-inputs { display: flex; justify-content: center; gap: 12px; margin-bottom: 1.5rem; }
+        .input-group { display: flex; flex-direction: column; }
+        
         input {
-            width: 50px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px; color: white; text-align: center; padding: 5px;
+            width: 55px; background: transparent; border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; text-align: center; font-size: 1.1rem; padding: 8px; border-radius: 12px;
         }
-        label { font-size: 0.6rem; color: #64748b; margin-top: 4px; }
 
-        .dream-btn {
-            padding: 10px 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
-            background: transparent; color: white; cursor: pointer; font-size: 0.7rem; transition: 0.3s;
+        label { font-size: 0.65rem; color: #777; margin-top: 6px; font-weight: 600; }
+
+        .btn-row { display: flex; gap: 10px; }
+        .btn {
+            flex: 1; padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);
+            background: transparent; color: #fff; cursor: pointer; font-size: 0.75rem;
+            font-weight: 600; transition: 0.3s;
         }
-        .dream-btn:hover { border-color: var(--glow); color: var(--glow); }
 
-        #connect-overlay {
+        .btn:hover { background: #fff; color: #000; }
+
+        #overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--space-bg); border-radius: 40px; z-index: 10;
+            background: var(--bg); border-radius: 40px; z-index: 10;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
     </style>
 </head>
 <body>
 
-<div class="stars-container" id="stars"></div>
-
-<div class="card">
-    <div id="connect-overlay">
-        <h1 style="letter-spacing:5px">DESK LAMP</h1>
-        <button class="dream-btn" onclick="connectBT()">INITIALIZE LINK</button>
+<div class="container">
+    <div id="overlay">
+        <h1 style="font-weight: 600;">Desk Lamp</h1>
+        <button class="btn" onclick="initBT()" style="max-width: 150px;">CONNECT</button>
     </div>
 
-    <div id="countdown-display">00:00:00</div>
-    
-    <button class="nova-button" id="lampBtn" onclick="toggleLamp()">🌑</button>
+    <h1>Desk Lamp</h1>
 
-    <div class="timer-hud">
-        <div class="input-row">
-            <div class="unit"><input type="number" id="hh" value="0"><label>HRS</label></div>
-            <div class="unit"><input type="number" id="mm" value="0"><label>MIN</label></div>
-            <div class="unit"><input type="number" id="ss" value="0"><label>SEC</label></div>
+    <button class="lamp-switch" id="lampBtn" onclick="toggleLamp()">
+        <svg viewBox="0 0 24 24"><path d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" /></svg>
+    </button>
+
+    <div class="timer-section">
+        <div id="countdown" class="countdown-text">00:00:00</div>
+        <div class="time-inputs">
+            <div class="input-group"><input type="number" id="hh" value="0"><label>HRS</label></div>
+            <div class="input-group"><input type="number" id="mm" value="0"><label>MIN</label></div>
+            <div class="input-group"><input type="number" id="ss" value="0"><label>SEC</label></div>
         </div>
-        <div style="display:flex; gap:10px">
-            <button class="dream-btn" style="flex:1" onclick="setTimer('ON')">ON AT T-0</button>
-            <button class="dream-btn" style="flex:1" onclick="setTimer('OFF')">OFF AT T-0</button>
+        <div class="btn-row">
+            <button class="btn" onclick="setTimer('ON')">ON AFTER</button>
+            <button class="btn" onclick="setTimer('OFF')">OFF AFTER</button>
         </div>
     </div>
-    <p id="status" style="font-size:0.7rem; color:#475569; margin-top:1.5rem;">LINK ESTABLISHED</p>
 </div>
 
 <script>
     let btChar;
-    let localTimer;
-    let secondsLeft = 0;
+    let timerInt;
+    let timeLeft = 0;
 
-    // Background Stars
-    const starsCont = document.getElementById('stars');
-    for(let i=0; i<100; i++) {
-        let s = document.createElement('div');
-        s.className = 'star';
-        s.style.width = s.style.height = Math.random()*3+'px';
-        s.style.left = Math.random()*100+'%'; s.style.top = Math.random()*100+'%';
-        s.style.setProperty('--duration', Math.random()*3+2+'s');
-        starsCont.appendChild(s);
-    }
-
-    async function connectBT() {
+    async function initBT() {
         try {
             const device = await navigator.bluetooth.requestDevice({ filters: [{ services: ["0000ffe0-0000-1000-8000-00805f9b34fb"] }] });
             const server = await device.gatt.connect();
@@ -120,74 +129,59 @@
             btChar = await service.getCharacteristic("0000ffe1-0000-1000-8000-00805f9b34fb");
             
             await btChar.startNotifications();
-            btChar.addEventListener('characteristicvaluechanged', handleIncoming);
+            btChar.addEventListener('characteristicvaluechanged', (e) => {
+                let msg = new TextDecoder().decode(e.target.value).trim();
+                if (msg.startsWith("STATE:")) updateUI(msg.split(":")[1] === "1");
+                if (msg.startsWith("T_VAL:")) {
+                    timeLeft = parseInt(msg.split(":")[1]);
+                    if (timeLeft > 0) startLocalClock();
+                }
+                if (msg.startsWith("T_START:")) {
+                    timeLeft = parseInt(msg.split(":")[1]);
+                    startLocalClock();
+                }
+                if (msg === "T_DONE") { timeLeft = 0; stopLocalClock(); }
+            });
 
-            document.getElementById('connect-overlay').style.display = 'none';
-            send("SYNC"); // Ask Arduino for current state
-        } catch (e) { alert("Link Failed"); }
-    }
-
-    function handleIncoming(event) {
-        let msg = new TextDecoder().decode(event.target.value).trim();
-        
-        if (msg.startsWith("STATE:")) updateUI(msg.split(":")[1] === "1");
-        
-        if (msg.startsWith("T_VAL:")) {
-            let parts = msg.split(":");
-            secondsLeft = parseInt(parts[1]);
-            if (secondsLeft > 0) startLocalCountdown();
-        }
-
-        if (msg.startsWith("T_START:")) {
-            secondsLeft = parseInt(msg.split(":")[1]);
-            startLocalCountdown();
-        }
-
-        if (msg === "T_DONE") {
-            clearInterval(localTimer);
-            document.getElementById('countdown-display').style.display = 'none';
-        }
-    }
-
-    function startLocalCountdown() {
-        clearInterval(localTimer);
-        document.getElementById('countdown-display').style.display = 'block';
-        
-        localTimer = setInterval(() => {
-            if (secondsLeft <= 0) {
-                clearInterval(localTimer);
-                document.getElementById('countdown-display').style.display = 'none';
-                return;
-            }
-            secondsLeft--;
-            updateTimerText();
-        }, 1000);
-    }
-
-    function updateTimerText() {
-        let h = Math.floor(secondsLeft / 3600);
-        let m = Math.floor((secondsLeft % 3600) / 60);
-        let s = secondsLeft % 60;
-        document.getElementById('countdown-display').innerText = 
-            `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            document.getElementById('overlay').style.display = 'none';
+            setTimeout(() => send("SYNC"), 600);
+        } catch (err) { alert("Connection failed. Try again."); }
     }
 
     async function send(m) { if(btChar) await btChar.writeValue(new TextEncoder().encode(m+"\n")); }
 
-    function toggleLamp() { send(document.getElementById('lampBtn').classList.contains('active') ? "0" : "1"); }
+    function toggleLamp() {
+        let isNowOn = document.getElementById('lampBtn').classList.contains('active');
+        send(isNowOn ? "0" : "1");
+    }
 
     function updateUI(on) {
-        const b = document.getElementById('lampBtn');
-        b.classList.toggle('active', on);
-        b.innerHTML = on ? "☀️" : "🌑";
-        document.getElementById('status').innerText = on ? "SYSTEM ACTIVE" : "SYSTEM IDLE";
+        document.getElementById('lampBtn').classList.toggle('active', on);
     }
 
     function setTimer(type) {
-        let total = (parseInt(document.getElementById('hh').value)||0)*3600 + 
-                    (parseInt(document.getElementById('mm').value)||0)*60 + 
-                    (parseInt(document.getElementById('ss').value)||0);
-        if(total > 0) send(type + ":" + total);
+        let s = (parseInt(document.getElementById('hh').value)||0)*3600 + 
+                (parseInt(document.getElementById('mm').value)||0)*60 + 
+                (parseInt(document.getElementById('ss').value)||0);
+        if(s > 0) send(type + ":" + s);
+    }
+
+    function startLocalClock() {
+        clearInterval(timerInt);
+        document.getElementById('countdown').style.display = 'block';
+        timerInt = setInterval(() => {
+            if(timeLeft <= 0) return stopLocalClock();
+            timeLeft--;
+            let h = Math.floor(timeLeft/3600).toString().padStart(2,'0');
+            let m = Math.floor((timeLeft%3600)/60).toString().padStart(2,'0');
+            let s = (timeLeft%60).toString().padStart(2,'0');
+            document.getElementById('countdown').innerText = `${h}:${m}:${s}`;
+        }, 1000);
+    }
+
+    function stopLocalClock() {
+        clearInterval(timerInt);
+        document.getElementById('countdown').style.display = 'none';
     }
 </script>
 </body>
