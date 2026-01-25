@@ -3,136 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desk Lamp | Blue Edition</title>
+    <title>Desk Lamp | Blue Cozy</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --blue-glow: #00e5ff;
-            --deep-blue: #020617;
-            --panel: rgba(15, 23, 42, 0.8);
-        }
-
+        :root { --blue: #00e5ff; --bg: #020617; --card: rgba(15, 23, 42, 0.9); }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
         body {
-            margin: 0; padding: 0;
-            background-color: var(--deep-blue);
-            color: white;
+            margin: 0; background: var(--bg); color: white;
             font-family: 'Inter', sans-serif;
-            display: flex; justify-content: center; align-items: center;
-            height: 100vh; overflow: hidden;
+            display: flex; justify-content: center; align-items: center; height: 100vh;
         }
-
-        /* Ambient Background */
         body::before {
-            content: ''; position: absolute; top: 50%; left: 50%;
-            width: 80vw; height: 80vw;
-            background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, transparent 70%);
+            content: ''; position: absolute; top: 50%; left: 50%; width: 70vw; height: 70vw;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.05) 0%, transparent 70%);
             transform: translate(-50%, -50%); z-index: -1;
         }
-
         .container {
-            width: 340px; padding: 2.5rem; border-radius: 35px;
-            background: var(--panel); border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
+            width: 320px; padding: 2rem; border-radius: 30px;
+            background: var(--card); border: 1px solid rgba(255,255,255,0.05);
+            text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); position: relative;
         }
-
-        h1 { font-weight: 300; letter-spacing: 3px; font-size: 1.1rem; margin-bottom: 2rem; color: rgba(255,255,255,0.6); }
-
-        /* The Main Lamp Button */
+        h1 { font-weight: 300; letter-spacing: 2px; font-size: 1rem; margin-bottom: 2rem; opacity: 0.6; }
+        
         .lamp-btn {
-            width: 110px; height: 110px; border-radius: 50%; border: none;
-            background: #1e293b; cursor: pointer; transition: 0.4s ease;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 2rem; position: relative;
+            width: 100px; height: 100px; border-radius: 50%; border: none;
+            background: #1e293b; cursor: pointer; transition: 0.4s;
+            margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center;
         }
-
         .lamp-btn svg { width: 40px; fill: #475569; transition: 0.4s; }
-
-        /* ACTIVE STATE (Solid Shine) */
-        .lamp-btn.active {
-            background: var(--blue-glow);
-            box-shadow: 0 0 50px rgba(0, 229, 255, 0.5);
-        }
+        
+        /* Solid Shine */
+        .lamp-btn.active { background: var(--blue); box-shadow: 0 0 40px rgba(0,229,255,0.4); }
         .lamp-btn.active svg { fill: #000; }
+        
+        /* Pulse for Pending ON */
+        .lamp-btn.pending { border: 2px solid var(--blue); animation: pulse 2s infinite; }
+        .lamp-btn.pending svg { fill: var(--blue); }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        /* PENDING STATE (Pulsing when timer is set to ON) */
-        .lamp-btn.pending {
-            animation: pulse-blue 2s infinite;
-            background: #0f172a;
-            border: 1px solid var(--blue-glow);
-        }
-        .lamp-btn.pending svg { fill: var(--blue-glow); }
-
-        @keyframes pulse-blue {
-            0% { box-shadow: 0 0 0px rgba(0, 229, 255, 0); }
-            50% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.3); }
-            100% { box-shadow: 0 0 0px rgba(0, 229, 255, 0); }
-        }
-
-        /* Timer UI */
-        .timer-ui { background: rgba(0, 0, 0, 0.2); border-radius: 20px; padding: 1.5rem; }
-        #countdown {
-            font-size: 1.8rem; font-weight: 500; color: var(--blue-glow);
-            margin-bottom: 1rem; display: none; letter-spacing: 2px;
-        }
-
-        .inputs { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem; }
-        input {
-            width: 55px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px; color: white; padding: 10px 0; text-align: center; font-size: 1rem;
-        }
-        label { font-size: 0.6rem; color: #64748b; margin-top: 5px; font-weight: 600; display: block; }
-
-        .btn-group { display: flex; gap: 8px; }
-        .btn {
-            flex: 1; padding: 12px 0; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1); background: transparent; color: white;
-            font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s;
-        }
-        .btn:active { transform: scale(0.96); }
-
-        #connect-screen {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--deep-blue); border-radius: 35px; z-index: 10;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
+        .timer-box { background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 20px; }
+        #countdown { font-size: 1.8rem; color: var(--blue); margin-bottom: 1rem; display: none; }
+        .inputs { display: flex; justify-content: center; gap: 8px; margin-bottom: 1rem; }
+        input { width: 50px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; text-align: center; padding: 8px 0; }
+        .btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: white; cursor: pointer; font-size: 0.7rem; font-weight: 600; }
+        
+        #overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: var(--bg); border-radius: 30px; z-index: 5; display: flex; flex-direction: column; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="connect-screen">
-        <h1 style="color:white; opacity:1">Desk Lamp</h1>
-        <button class="btn" onclick="connect()" style="width: 160px; border-color: var(--blue-glow); color: var(--blue-glow);">INITIALIZE</button>
+    <div id="overlay">
+        <h1>DESK LAMP</h1>
+        <button class="btn" onclick="connect()" style="width:140px; border-color:var(--blue); color:var(--blue)">CONNECT</button>
     </div>
 
     <h1>DESK LAMP</h1>
-
     <button class="lamp-btn" id="lampBtn" onclick="toggle()">
         <svg viewBox="0 0 24 24"><path d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" /></svg>
     </button>
 
-    <div class="timer-ui">
+    <div class="timer-box">
         <div id="countdown">00:00:00</div>
         <div class="inputs">
-            <div class="input-box"><input type="number" id="h" value="0"><label>HRS</label></div>
-            <div class="input-box"><input type="number" id="m" value="0"><label>MIN</label></div>
-            <div class="input-box"><input type="number" id="s" value="0"><label>SEC</label></div>
+            <input type="number" id="h" placeholder="0">
+            <input type="number" id="m" placeholder="0">
+            <input type="number" id="s" placeholder="0">
         </div>
-        <div class="btn-group">
-            <button class="btn" onclick="sendTimer('ON')">ON AFTER</button>
-            <button class="btn" onclick="sendTimer('OFF')">OFF AFTER</button>
+        <div style="display:flex; gap:8px">
+            <button class="btn" onclick="setTimer('ON')">ON AFTER</button>
+            <button class="btn" onclick="setTimer('OFF')">OFF AFTER</button>
         </div>
     </div>
 </div>
 
 <script>
-    let char;
-    let secondsLeft = 0;
-    let clockInt;
-    let targetState = 0; // 0 for OFF, 1 for ON
+    let char, timerInt, timeLeft = 0, targetIsOn = false;
 
     async function connect() {
         try {
@@ -140,83 +86,62 @@
             const server = await device.gatt.connect();
             const service = await server.getPrimaryService("0000ffe0-0000-1000-8000-00805f9b34fb");
             char = await service.getCharacteristic("0000ffe1-0000-1000-8000-00805f9b34fb");
-            
             await char.startNotifications();
-            char.addEventListener('characteristicvaluechanged', handleData);
-            document.getElementById('connect-screen').style.display = 'none';
+            char.addEventListener('characteristicvaluechanged', (e) => {
+                let m = new TextDecoder().decode(e.target.value).trim();
+                console.log("Recv:", m);
+                if(m.startsWith("STATE:")) updateUI(m.split(":")[1] === "1");
+                if(m.startsWith("T_VAL:") || m.startsWith("T_START:")) {
+                    let p = m.split(":");
+                    timeLeft = parseInt(p[1]);
+                    targetIsOn = p[2] === "1";
+                    if(timeLeft > 0) startClock();
+                }
+                if(m === "T_DONE") { 
+                    updateUI(targetIsOn); 
+                    timeLeft = 0; 
+                    stopClock(); 
+                }
+            });
+            document.getElementById('overlay').style.display = 'none';
             setTimeout(() => send("SYNC"), 600);
-        } catch (e) { alert("Link Error"); }
+        } catch(e) { alert("Fail"); }
     }
 
-    function handleData(event) {
-        const msg = new TextDecoder().decode(event.target.value).trim();
-        
-        if (msg.startsWith("STATE:")) {
-            const isOn = msg.split(":")[1] === "1";
-            updateLampVisual(isOn);
-        }
-        
-        if (msg.startsWith("T_VAL:") || msg.startsWith("T_START:")) {
-            const parts = msg.split(":");
-            secondsLeft = parseInt(parts[1]);
-            // Arduino should send T_VAL:Seconds:TargetState
-            if (parts.length > 2) targetState = parseInt(parts[2]); 
-            else targetState = (msg.includes("ON")) ? 1 : 0;
-
-            if (secondsLeft > 0) startLocalClock();
-        }
-
-        if (msg === "T_DONE") {
-            secondsLeft = 0;
-            stopLocalClock();
-        }
-    }
-
-    function updateLampVisual(isOn) {
+    async function send(m) { if(char) await char.writeValue(new TextEncoder().encode(m+"\n")); }
+    function toggle() { send(document.getElementById('lampBtn').classList.contains('active') ? "0" : "1"); }
+    
+    function updateUI(on) {
         const btn = document.getElementById('lampBtn');
-        btn.classList.remove('pending'); // Clear any pulse
-        btn.classList.toggle('active', isOn);
+        btn.classList.remove('pending');
+        btn.classList.toggle('active', on);
     }
 
-    function startLocalClock() {
-        clearInterval(clockInt);
+    function startClock() {
+        clearInterval(timerInt);
+        const btn = document.getElementById('lampBtn');
+        if(targetIsOn && !btn.classList.contains('active')) btn.classList.add('pending');
         document.getElementById('countdown').style.display = 'block';
-        
-        // If the timer is set to turn the lamp ON, add the pulse
-        if (targetState === 1 && !document.getElementById('lampBtn').classList.contains('active')) {
-            document.getElementById('lampBtn').classList.add('pending');
-        }
-
-        clockInt = setInterval(() => {
-            if (secondsLeft <= 0) return stopLocalClock();
-            secondsLeft--;
-            const h = Math.floor(secondsLeft/3600).toString().padStart(2,'0');
-            const m = Math.floor((secondsLeft%3600)/60).toString().padStart(2,'0');
-            const s = (secondsLeft%60).toString().padStart(2,'0');
+        timerInt = setInterval(() => {
+            if(timeLeft <= 0) return stopClock();
+            timeLeft--;
+            let h = Math.floor(timeLeft/3600).toString().padStart(2,'0');
+            let m = Math.floor((timeLeft%3600)/60).toString().padStart(2,'0');
+            let s = (timeLeft%60).toString().padStart(2,'0');
             document.getElementById('countdown').innerText = `${h}:${m}:${s}`;
         }, 1000);
     }
 
-    function stopLocalClock() {
-        clearInterval(clockInt);
+    function stopClock() {
+        clearInterval(timerInt);
         document.getElementById('countdown').style.display = 'none';
         document.getElementById('lampBtn').classList.remove('pending');
     }
 
-    async function send(m) { if(char) await char.writeValue(new TextEncoder().encode(m + "\n")); }
-
-    function toggle() {
-        const active = document.getElementById('lampBtn').classList.contains('active');
-        send(active ? "0" : "1");
-    }
-
-    function sendTimer(type) {
-        const h = parseInt(document.getElementById('h').value) || 0;
-        const m = parseInt(document.getElementById('m').value) || 0;
-        const s = parseInt(document.getElementById('s').value) || 0;
-        const total = (h * 3600) + (m * 60) + s;
-        if (total > 0) {
-            targetState = (type === 'ON') ? 1 : 0;
+    function setTimer(type) {
+        let total = (parseInt(document.getElementById('h').value)||0)*3600 + (parseInt(document.getElementById('m').value)||0)*60 + (parseInt(document.getElementById('s').value)||0);
+        if(total > 0) {
+            targetIsOn = (type === 'ON');
             send(type + ":" + total);
         }
     }
