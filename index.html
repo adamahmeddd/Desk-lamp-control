@@ -3,101 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Lamp Controller</title>
+    <title>Desk Lamp Controller</title>
     <style>
-        :root { --glow-color: #ffd700; --bg: #0f172a; }
+        :root { --accent: #00f2ff; --bg: #050505; --glass: rgba(255, 255, 255, 0.05); }
         body {
-            background-color: var(--bg);
+            background: var(--bg);
             color: white;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
         }
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 2rem;
-            text-align: center;
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            padding: 2.5rem;
+            border-radius: 30px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        h1 { font-weight: 300; margin-bottom: 2rem; letter-spacing: 2px; }
-        .lamp-btn {
-            width: 120px;
-            height: 120px;
+        h1 { font-weight: 200; letter-spacing: 4px; color: var(--accent); margin-bottom: 2rem; }
+        
+        /* Main Power Button */
+        .power-btn {
+            width: 100px; height: 100px;
             border-radius: 50%;
             border: none;
-            background: #1e293b;
-            cursor: pointer;
+            background: #111;
             font-size: 2rem;
-            transition: 0.4s ease;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            color: #475569;
-        }
-        .lamp-btn.active {
-            background: var(--glow-color);
-            color: #000;
-            box-shadow: 0 0 40px var(--glow-color);
-        }
-        .status { margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.6; }
-        .connect-btn {
-            margin-bottom: 2rem;
-            padding: 8px 20px;
-            border-radius: 20px;
-            border: 1px solid var(--glow-color);
-            background: transparent;
-            color: var(--glow-color);
             cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            margin-bottom: 2rem;
         }
+        .power-btn.active {
+            background: var(--accent);
+            box-shadow: 0 0 30px var(--accent);
+            color: black;
+        }
+
+        /* Timer Section */
+        .timer-box {
+            background: rgba(0,0,0,0.3);
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin-top: 1rem;
+        }
+        .inputs { display: flex; justify-content: center; gap: 10px; margin: 15px 0; }
+        .inputs div { display: flex; flex-direction: column; align-items: center; }
+        input {
+            width: 50px;
+            background: transparent;
+            border: 1px solid #444;
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        label { font-size: 0.7rem; color: #888; margin-top: 5px; text-transform: uppercase; }
+
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+        button.action {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        button.action:hover { background: var(--accent); color: black; }
+        
+        #status { font-size: 0.8rem; opacity: 0.5; margin-top: 20px; }
+        .connect-link { color: var(--accent); cursor: pointer; text-decoration: underline; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <button class="connect-btn" id="connect">Connect Bluetooth</button>
-    <h1>SMART LAMP</h1>
-    <button class="lamp-btn" id="lampToggle">💡</button>
-    <p class="status" id="status">Status: Disconnected</p>
+<div class="card">
+    <div id="connect-ui">
+        <p>Device not connected</p>
+        <button class="action" onclick="connectBT()">CONNECT DESK LAMP</button>
+    </div>
+
+    <div id="controls" style="display:none">
+        <h1>DESK LAMP</h1>
+        
+        <button class="power-btn" id="lampBtn" onclick="toggleLamp()">💡</button>
+
+        <div class="timer-box">
+            <span style="font-size: 0.9rem; color: #bbb;">Custom Timer</span>
+            <div class="inputs">
+                <div><input type="number" id="hh" value="0" min="0"><label>hrs</label></div>
+                <div><input type="number" id="mm" value="0" min="0" max="59"><label>min</label></div>
+                <div><input type="number" id="ss" value="0" min="0" max="59"><label>sec</label></div>
+            </div>
+            <div class="btn-group">
+                <button class="action" onclick="setTimer('ON')">ON AFTER</button>
+                <button class="action" onclick="setTimer('OFF')">OFF AFTER</button>
+            </div>
+        </div>
+        <p id="status">Status: Ready</p>
+    </div>
 </div>
 
 <script>
-    const serviceUuid = "0000ffe0-0000-1000-8000-00805f9b34fb";
-    const charUuid = "0000ffe1-0000-1000-8000-00805f9b34fb";
-    let characteristic;
-    let isLampOn = false;
+    let btChar;
+    let isOn = false;
 
-    document.getElementById('connect').addEventListener('click', async () => {
+    async function connectBT() {
+        const serviceUuid = "0000ffe0-0000-1000-8000-00805f9b34fb";
+        const charUuid = "0000ffe1-0000-1000-8000-00805f9b34fb";
         try {
             const device = await navigator.bluetooth.requestDevice({
                 filters: [{ services: [serviceUuid] }]
             });
             const server = await device.gatt.connect();
             const service = await server.getPrimaryService(serviceUuid);
-            characteristic = await service.getCharacteristic(charUuid);
-            document.getElementById('status').innerText = "Status: Connected to " + device.name;
-            document.getElementById('connect').style.display = "none";
-        } catch (error) {
-            console.log("Error: " + error);
-        }
-    });
+            btChar = await service.getCharacteristic(charUuid);
+            
+            document.getElementById('connect-ui').style.display = 'none';
+            document.getElementById('controls').style.display = 'block';
+        } catch (e) { alert("Connection Failed: " + e); }
+    }
 
-    document.getElementById('lampToggle').addEventListener('click', async () => {
-        if (!characteristic) return alert("Please connect first!");
-        
-        isLampOn = !isLampOn;
-        const command = isLampOn ? "1" : "0";
+    async function send(msg) {
+        if (!btChar) return;
         const encoder = new TextEncoder();
+        await btChar.writeValue(encoder.encode(msg + "\n"));
+    }
+
+    function toggleLamp() {
+        isOn = !isOn;
+        send(isOn ? "1" : "0");
+        document.getElementById('lampBtn').classList.toggle('active', isOn);
+        document.getElementById('status').innerText = `Status: Lamp ${isOn ? 'ON' : 'OFF'}`;
+    }
+
+    function setTimer(type) {
+        const h = parseInt(document.getElementById('hh').value) || 0;
+        const m = parseInt(document.getElementById('mm').value) || 0;
+        const s = parseInt(document.getElementById('ss').value) || 0;
         
-        await characteristic.writeValue(encoder.encode(command));
+        const totalSeconds = (h * 3600) + (m * 60) + s;
         
-        document.getElementById('lampToggle').classList.toggle('active', isLampOn);
-        document.getElementById('status').innerText = `Lamp is ${isLampOn ? 'ON' : 'OFF'}`;
-    });
+        if (totalSeconds <= 0) return alert("Set a time first!");
+        
+        send(`${type}:${totalSeconds}`);
+        document.getElementById('status').innerText = `Timer: Turn ${type} in ${h}h ${m}m ${s}s`;
+    }
 </script>
 </body>
 </html>
