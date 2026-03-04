@@ -3,45 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Desk Lamp | Dual Theme</title>
+  <title>Desk Lamp | Cosmic Control</title>
 
-  <!-- Keep your original font link (Theme 1 uses Quicksand) -->
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
 
   <style>
-    /* ---------------------------
-       GLOBAL (shared minimal)
-       --------------------------- */
-    #themeToggle {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      z-index: 9999;
-      padding: 10px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: rgba(0,0,0,0.25);
-      color: white;
-      cursor: pointer;
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      backdrop-filter: blur(12px);
-      transition: 0.25s;
-    }
-    #themeToggle:hover {
-      border-color: rgba(255,255,255,0.35);
-      background: rgba(255,255,255,0.08);
+    :root {
+      --glow: #00d4ff;
+      --space-bg: #020617;
+      --glass: rgba(15, 23, 42, 0.7);
+      --nebula: linear-gradient(45deg, #1e1b4b, #312e81, #1e1b4b);
     }
 
-    /* Hide elements depending on theme */
-    body.theme-1 #controlsTheme2 { display: none !important; }
-    body.theme-2 #controlsTheme1 { display: none !important; }
-
-    /* ---------------------------
-       THEME 1 (Cosmic Control)
-       (same values, just scoped)
-       --------------------------- */
-    body.theme-1 {
+    body {
       margin: 0;
       padding: 0;
       background: var(--space-bg);
@@ -54,24 +28,15 @@
       overflow: hidden;
     }
 
-    body.theme-1 :root { }
-
-    body.theme-1 {
-      --glow: #00d4ff;
-      --space-bg: #020617;
-      --glass: rgba(15, 23, 42, 0.7);
-      --nebula: linear-gradient(45deg, #1e1b4b, #312e81, #1e1b4b);
-    }
-
     /* Animated Star Background */
-    body.theme-1 .stars-container {
+    .stars-container {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background: var(--nebula);
       z-index: -1;
     }
 
-    body.theme-1 .star {
+    .star {
       position: absolute;
       background: white;
       border-radius: 50%;
@@ -85,7 +50,7 @@
     }
 
     /* Cosmic Card */
-    body.theme-1 .card {
+    .card {
       background: var(--glass);
       backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -97,7 +62,7 @@
       position: relative;
     }
 
-    body.theme-1 h1 {
+    h1 {
       font-weight: 300;
       letter-spacing: 8px;
       text-transform: uppercase;
@@ -109,7 +74,7 @@
     }
 
     /* The Star Button (Lamp Button) */
-    body.theme-1 .nova-button {
+    .nova-button {
       width: 120px;
       height: 120px;
       border-radius: 50%;
@@ -122,9 +87,10 @@
       box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
       margin-bottom: 2rem;
       z-index: 1;
+      user-select: none;
     }
 
-    body.theme-1 .nova-button::before {
+    .nova-button::before {
       content: '';
       position: absolute;
       top: -5px; left: -5px; right: -5px; bottom: -5px;
@@ -136,12 +102,12 @@
       filter: blur(20px);
     }
 
-    body.theme-1 .nova-button.active {
+    .nova-button.active {
       background: #fff;
       transform: scale(1.05);
     }
 
-    body.theme-1 .nova-button.active::before {
+    .nova-button.active::before {
       opacity: 0.7;
       animation: pulse 2s infinite;
     }
@@ -153,23 +119,23 @@
     }
 
     /* Dreamy Timer HUD */
-    body.theme-1 .timer-hud {
+    .timer-hud {
       background: rgba(255, 255, 255, 0.03);
       border-radius: 25px;
       padding: 1.5rem;
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    body.theme-1 .input-row {
+    .input-row {
       display: flex;
       justify-content: center;
       gap: 15px;
       margin: 15px 0;
     }
 
-    body.theme-1 .unit { display: flex; flex-direction: column; }
+    .unit { display: flex; flex-direction: column; }
 
-    body.theme-1 input {
+    input {
       width: 60px;
       height: 45px;
       background: rgba(0,0,0,0.3);
@@ -182,16 +148,16 @@
       outline: none;
     }
 
-    body.theme-1 label {
+    label {
       font-size: 0.6rem;
       text-transform: uppercase;
       margin-top: 5px;
       color: #64748b;
     }
 
-    body.theme-1 .btn-row { display: flex; gap: 10px; }
+    .btn-row { display: flex; gap: 10px; }
 
-    body.theme-1 button.dream-btn {
+    button.dream-btn {
       flex: 1;
       padding: 12px;
       border-radius: 12px;
@@ -202,15 +168,17 @@
       font-size: 0.7rem;
       letter-spacing: 1px;
       transition: 0.3s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    body.theme-1 button.dream-btn:hover {
+    button.dream-btn:hover {
       background: rgba(255, 255, 255, 0.1);
       border-color: var(--glow);
       color: var(--glow);
     }
 
-    body.theme-1 #status {
+    #status {
       margin-top: 2rem;
       font-size: 0.7rem;
       color: #475569;
@@ -218,7 +186,7 @@
     }
 
     /* Connect Button Overlay */
-    body.theme-1 #connect-overlay {
+    #connect-overlay {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
       background: var(--space-bg);
@@ -229,124 +197,21 @@
       align-items: center;
       z-index: 10;
     }
-
-    /* ---------------------------
-       THEME 2 (Minimal Neon)
-       (same values, just scoped)
-       --------------------------- */
-    body.theme-2 {
-      --accent: #00f2ff;
-      --bg: #050505;
-      --glass: rgba(255, 255, 255, 0.05);
-
-      background: var(--bg);
-      color: white;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      overflow: hidden;
-    }
-
-    body.theme-2 .card {
-      background: var(--glass);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 2.5rem;
-      border-radius: 30px;
-      width: 350px;
-      text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-      position: relative;
-    }
-
-    body.theme-2 h1 {
-      font-weight: 200;
-      letter-spacing: 4px;
-      color: var(--accent);
-      margin-bottom: 2rem;
-    }
-
-    /* Main Power Button */
-    body.theme-2 .power-btn {
-      width: 100px; height: 100px;
-      border-radius: 50%;
-      border: none;
-      background: #111;
-      font-size: 2rem;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      margin-bottom: 2rem;
-    }
-    body.theme-2 .power-btn.active {
-      background: var(--accent);
-      box-shadow: 0 0 30px var(--accent);
-      color: black;
-    }
-
-    /* Timer Section */
-    body.theme-2 .timer-box {
-      background: rgba(0,0,0,0.3);
-      padding: 1.5rem;
-      border-radius: 20px;
-      margin-top: 1rem;
-    }
-    body.theme-2 .inputs { display: flex; justify-content: center; gap: 10px; margin: 15px 0; }
-    body.theme-2 .inputs div { display: flex; flex-direction: column; align-items: center; }
-
-    body.theme-2 input {
-      width: 50px;
-      background: transparent;
-      border: 1px solid #444;
-      color: white;
-      padding: 8px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 1rem;
-      outline: none;
-    }
-    body.theme-2 label { font-size: 0.7rem; color: #888; margin-top: 5px; text-transform: uppercase; }
-
-    body.theme-2 .btn-group { display: flex; gap: 10px; margin-top: 10px; }
-
-    body.theme-2 button.action {
-      flex: 1;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid var(--accent);
-      background: transparent;
-      color: var(--accent);
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    body.theme-2 button.action:hover { background: var(--accent); color: black; }
-    
-    body.theme-2 #status2 { font-size: 0.8rem; opacity: 0.5; margin-top: 20px; }
   </style>
 </head>
+<body>
 
-<body class="theme-1">
-
-  <button id="themeToggle">SWITCH THEME</button>
-
-  <!-- Theme 1 stars background only shown in theme-1 -->
   <div class="stars-container" id="stars"></div>
 
   <div class="card">
 
-    <!-- THEME 1 CONNECT OVERLAY -->
     <div id="connect-overlay">
       <h1>Desk Lamp</h1>
-      <button class="dream-btn" style="max-width: 200px;" onclick="connectBT()">INITIALIZE LINK</button>
+      <button class="dream-btn" style="max-width: 220px;" onclick="connectBT()">INITIALIZE LINK</button>
     </div>
 
-    <!-- THEME 1 UI -->
-    <div id="controlsTheme1">
+    <!-- MAIN MODE -->
+    <div id="mainMode">
       <h1>Desk Lamp</h1>
 
       <button class="nova-button" id="lampBtn" onclick="toggleLamp()">✨</button>
@@ -363,236 +228,194 @@
           <button class="dream-btn" onclick="setTimer('OFF')">TIMED OFF</button>
         </div>
 
-        <!-- BUZZER CONTROLS (Theme 1) - uses existing dream-btn, no CSS changes -->
+        <!-- BUZZER CONTROLS -->
         <div class="btn-row" style="margin-top:10px;">
-          <button class="dream-btn" id="buzToggle1" onclick="toggleBuzzer()">BUZZER ON</button>
+          <button class="dream-btn" id="buzToggle" onclick="toggleBuzzer()">BUZZER ON</button>
           <button class="dream-btn" onclick="testBuzzer()">TEST BUZZ</button>
+        </div>
+
+        <!-- SWITCH TO TV MODE -->
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="dream-btn" onclick="openTVMode()">TV MODE</button>
         </div>
       </div>
 
       <p id="status">SYSTEM IDLE</p>
     </div>
 
-    <!-- THEME 2 UI (same functionality, different markup/classes like your original 2nd file) -->
-    <div id="controlsTheme2" style="display:block;">
-      <div id="connect-ui">
-        <p>Device not connected</p>
-        <button class="action" onclick="connectBT()">CONNECT DESK LAMP</button>
-      </div>
+    <!-- TV MODE -->
+    <div id="tvMode" style="display:none;">
+      <h1>TV Control</h1>
 
-      <div id="controls2" style="display:none">
-        <h1>DESK LAMP</h1>
+      <!-- Hold-to-repeat Volume -->
+      <div class="timer-hud">
+        <div class="btn-row">
+          <button class="dream-btn"
+            onpointerdown="tvHoldStart('UP')"
+            onpointerup="tvHoldStop()"
+            onpointercancel="tvHoldStop()"
+            onpointerleave="tvHoldStop()"
+          >VOLUME +</button>
 
-        <button class="power-btn" id="lampBtn2" onclick="toggleLamp()">💡</button>
-
-        <div class="timer-box">
-          <span style="font-size: 0.9rem; color: #bbb;">Custom Timer</span>
-          <div class="inputs">
-            <div><input type="number" id="hh2" value="0" min="0"><label>hrs</label></div>
-            <div><input type="number" id="mm2" value="0" min="0" max="59"><label>min</label></div>
-            <div><input type="number" id="ss2" value="0" min="0" max="59"><label>sec</label></div>
-          </div>
-
-          <div class="btn-group">
-            <button class="action" onclick="setTimer('ON')">ON AFTER</button>
-            <button class="action" onclick="setTimer('OFF')">OFF AFTER</button>
-          </div>
-
-          <!-- BUZZER CONTROLS (Theme 2) - uses existing action class, no CSS changes -->
-          <div class="btn-group" style="margin-top:10px;">
-            <button class="action" id="buzToggle2" onclick="toggleBuzzer()">BUZZER ON</button>
-            <button class="action" onclick="testBuzzer()">TEST BUZZ</button>
-          </div>
+          <button class="dream-btn"
+            onpointerdown="tvHoldStart('DOWN')"
+            onpointerup="tvHoldStop()"
+            onpointercancel="tvHoldStop()"
+            onpointerleave="tvHoldStop()"
+          >VOLUME -</button>
         </div>
 
-        <p id="status2">Status: Ready</p>
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="dream-btn" onclick="tvSend('OC')">OPEN / CLOSE</button>
+        </div>
+
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="dream-btn" onclick="closeTVMode()">BACK</button>
+        </div>
       </div>
+
+      <p id="statusTv" style="margin-top:2rem;font-size:0.7rem;color:#475569;letter-spacing:2px;">
+        TV SYSTEM READY
+      </p>
     </div>
 
   </div>
 
-  <script>
-    // -------------------------
-    // THEME SWITCH (saved)
-    // -------------------------
-    const savedTheme = localStorage.getItem("theme") || "theme-1";
-    document.body.classList.remove("theme-1", "theme-2");
-    document.body.classList.add(savedTheme);
+<script>
+  // Stars
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 150; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 3 + 'px';
+    star.style.width = size;
+    star.style.height = size;
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+    starsContainer.appendChild(star);
+  }
 
-    // If theme-2, remove stars (still in DOM but harmless)
-    if (savedTheme === "theme-2") {
-      document.getElementById("stars").style.display = "none";
-    }
+  let btChar;
+  let isOn = true;
 
-    document.getElementById("themeToggle").addEventListener("click", () => {
-      const isTheme1 = document.body.classList.contains("theme-1");
-      document.body.classList.toggle("theme-1", !isTheme1);
-      document.body.classList.toggle("theme-2", isTheme1);
-      localStorage.setItem("theme", isTheme1 ? "theme-2" : "theme-1");
+  // Buzzer UI state
+  let buzzerEnabledUI = true;
 
-      // show/hide stars only for theme-1
-      document.getElementById("stars").style.display = isTheme1 ? "none" : "block";
-    });
+  function updateBuzzerButton() {
+    document.getElementById("buzToggle").innerText = buzzerEnabledUI ? "BUZZER ON" : "BUZZER OFF";
+  }
 
-    // -------------------------
-    // BACKGROUND STARS (Theme "theme-1" only)
-    // -------------------------
-    const starsContainer = document.getElementById('stars');
-    for (let i = 0; i < 150; i++) {
-      const star = document.createElement('div');
-      star.className = 'star';
-      const size = Math.random() * 3 + 'px';
-      star.style.width = size;
-      star.style.height = size;
-      star.style.left = Math.random() * 100 + '%';
-      star.style.top = Math.random() * 100 + '%';
-      star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
-      starsContainer.appendChild(star);
-    }
+  async function connectBT() {
+    const serviceUuid = "0000ffe0-0000-1000-8000-00805f9b34fb";
+    const charUuid = "0000ffe1-0000-1000-8000-00805f9b34fb";
+    try {
+      const device = await navigator.bluetooth.requestDevice({
+        filters: [{ services: [serviceUuid] }]
+      });
+      const server = await device.gatt.connect();
+      const service = await server.getPrimaryService(serviceUuid);
+      btChar = await service.getCharacteristic(charUuid);
 
-    // -------------------------
-    // BLUETOOTH + CONTROL LOGIC
-    // -------------------------
-    let btChar;
-    let isOn = true;
-
-    // -------------------------
-    // BUZZER UI STATE (webapp)
-    // -------------------------
-    let buzzerEnabledUI = true;
-
-    function updateBuzzerButtons() {
-      const t = buzzerEnabledUI ? "BUZZER ON" : "BUZZER OFF";
-      const b1 = document.getElementById("buzToggle1");
-      const b2 = document.getElementById("buzToggle2");
-      if (b1) b1.innerText = t;
-      if (b2) b2.innerText = t;
-    }
-
-    async function toggleBuzzer() {
-      buzzerEnabledUI = !buzzerEnabledUI;
-      await send(buzzerEnabledUI ? "BUZ:1" : "BUZ:0");
-      updateBuzzerButtons();
-    }
-
-    async function testBuzzer() {
-      // does NOT change enabled state; just requests a test buzz now
-      await send("BUZ:TEST");
-    }
-
-    async function connectBT() {
-      const serviceUuid = "0000ffe0-0000-1000-8000-00805f9b34fb";
-      const charUuid = "0000ffe1-0000-1000-8000-00805f9b34fb";
+      // Notifications (optional, but great for sync)
       try {
-        const device = await navigator.bluetooth.requestDevice({
-          filters: [{ services: [serviceUuid] }]
+        await btChar.startNotifications();
+        btChar.addEventListener('characteristicvaluechanged', (e) => {
+          let val = new TextDecoder().decode(e.target.value).trim();
+
+          if (val === "STATE:1") updateUI(true);
+          if (val === "STATE:0") updateUI(false);
+
+          if (val === "BUZ:1") { buzzerEnabledUI = true; updateBuzzerButton(); }
+          if (val === "BUZ:0") { buzzerEnabledUI = false; updateBuzzerButton(); }
         });
-        const server = await device.gatt.connect();
-        const service = await server.getPrimaryService(serviceUuid);
-        btChar = await service.getCharacteristic(charUuid);
+      } catch (_) {}
 
-        // Notifications (Theme 1 originally uses these; works for both)
-        try {
-          await btChar.startNotifications();
-          btChar.addEventListener('characteristicvaluechanged', (e) => {
-            let val = new TextDecoder().decode(e.target.value).trim();
-
-            // Lamp state sync
-            if (val === "STATE:1") updateUI(true);
-            if (val === "STATE:0") updateUI(false);
-
-            // Buzzer confirmations (optional but nice)
-            if (val === "BUZ:1") { buzzerEnabledUI = true; updateBuzzerButtons(); }
-            if (val === "BUZ:0") { buzzerEnabledUI = false; updateBuzzerButtons(); }
-          });
-        } catch (_) {
-          // if notifications not supported, it's fine
-        }
-
-        // Theme 1 overlay hide
-        const overlay = document.getElementById('connect-overlay');
-        if (overlay) overlay.style.display = 'none';
-
-        // Theme 2 connect UI swap
-        const cUi = document.getElementById('connect-ui');
-        const ctrls2 = document.getElementById('controls2');
-        if (cUi && ctrls2) {
-          cUi.style.display = 'none';
-          ctrls2.style.display = 'block';
-        }
-
-        updateUI(true);
-        updateBuzzerButtons();
-      } catch (e) {
-        alert("Initialization/Connection failed.");
-      }
+      document.getElementById('connect-overlay').style.display = 'none';
+      updateUI(true);
+      updateBuzzerButton();
+    } catch (e) {
+      alert("Initialization failed.");
     }
+  }
 
-    async function send(msg) {
-      if (!btChar) return;
-      await btChar.writeValue(new TextEncoder().encode(msg + "\n"));
+  async function send(msg) {
+    if (!btChar) return;
+    await btChar.writeValue(new TextEncoder().encode(msg + "\n"));
+  }
+
+  function toggleLamp() {
+    isOn = !isOn;
+    send(isOn ? "1" : "0");
+    updateUI(isOn);
+  }
+
+  function updateUI(state) {
+    isOn = state;
+    const btn = document.getElementById('lampBtn');
+    const status = document.getElementById('status');
+    if (isOn) {
+      btn.classList.add('active');
+      btn.innerHTML = "☀️";
+      status.innerText = "SYSTEM ACTIVE • EMITTING LIGHT";
+    } else {
+      btn.classList.remove('active');
+      btn.innerHTML = "🌑";
+      status.innerText = "SYSTEM IDLE • ENERGY SAVED";
     }
+  }
 
-    function toggleLamp() {
-      isOn = !isOn;
-      send(isOn ? "1" : "0");
-      updateUI(isOn);
-    }
+  function setTimer(type) {
+    const h = parseInt(document.getElementById('hh').value) || 0;
+    const m = parseInt(document.getElementById('mm').value) || 0;
+    const s = parseInt(document.getElementById('ss').value) || 0;
+    const total = (h * 3600) + (m * 60) + s;
+    if (total <= 0) return;
+    send(`${type}:${total}`);
+    document.getElementById('status').innerText = `T-MINUS ${total}s UNTIL ${type}`;
+  }
 
-    function updateUI(state) {
-      isOn = state;
+  // BUZZER
+  async function toggleBuzzer() {
+    buzzerEnabledUI = !buzzerEnabledUI;
+    await send(buzzerEnabledUI ? "BUZ:1" : "BUZ:0");
+    updateBuzzerButton();
+  }
 
-      // Theme 1 elements
-      const btn1 = document.getElementById('lampBtn');
-      const status1 = document.getElementById('status');
+  async function testBuzzer() {
+    await send("BUZ:TEST");
+  }
 
-      if (btn1 && status1) {
-        if (isOn) {
-          btn1.classList.add('active');
-          btn1.innerHTML = "☀️";
-          status1.innerText = "SYSTEM ACTIVE • EMITTING LIGHT";
-        } else {
-          btn1.classList.remove('active');
-          btn1.innerHTML = "🌑";
-          status1.innerText = "SYSTEM IDLE • ENERGY SAVED";
-        }
-      }
+  // MODE SWITCH
+  function openTVMode() {
+    document.getElementById("mainMode").style.display = "none";
+    document.getElementById("tvMode").style.display = "block";
+  }
+  function closeTVMode() {
+    tvHoldStop(); // safety
+    document.getElementById("tvMode").style.display = "none";
+    document.getElementById("mainMode").style.display = "block";
+  }
 
-      // Theme 2 elements
-      const btn2 = document.getElementById('lampBtn2');
-      const status2 = document.getElementById('status2');
+  // TV commands
+  async function tvSend(which) {
+    await send(`TV:${which}`);
+    const st = document.getElementById("statusTv");
+    if (st) st.innerText = `TV COMMAND SENT • ${which}`;
+  }
 
-      if (btn2 && status2) {
-        btn2.classList.toggle('active', isOn);
-        status2.innerText = `Status: Lamp ${isOn ? 'ON' : 'OFF'}`;
-      }
-    }
+  async function tvHoldStart(dir) {
+    await send(`TV:HOLD:${dir}`);
+    const st = document.getElementById("statusTv");
+    if (st) st.innerText = `TV HOLD • VOLUME ${dir}`;
+  }
 
-    function setTimer(type) {
-      // Use theme currently visible inputs
-      const theme1 = document.body.classList.contains("theme-1");
-
-      const h = parseInt(document.getElementById(theme1 ? 'hh' : 'hh2').value) || 0;
-      const m = parseInt(document.getElementById(theme1 ? 'mm' : 'mm2').value) || 0;
-      const s = parseInt(document.getElementById(theme1 ? 'ss' : 'ss2').value) || 0;
-
-      const total = (h * 3600) + (m * 60) + s;
-      if (total <= 0) {
-        if (!theme1) alert("Set a time first!");
-        return;
-      }
-
-      send(`${type}:${total}`);
-
-      // Theme 1 status message
-      const st1 = document.getElementById('status');
-      if (st1 && theme1) st1.innerText = `T-MINUS ${total}s UNTIL ${type}`;
-
-      // Theme 2 status message
-      const st2 = document.getElementById('status2');
-      if (st2 && !theme1) st2.innerText = `Timer: Turn ${type} in ${h}h ${m}m ${s}s`;
-    }
-  </script>
+  async function tvHoldStop() {
+    await send(`TV:HOLD:STOP`);
+    const st = document.getElementById("statusTv");
+    if (st) st.innerText = `TV HOLD STOPPED`;
+  }
+</script>
 
 </body>
 </html>
