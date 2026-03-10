@@ -3,442 +3,441 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Desk Lamp | Cosmic Control</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
-
+  <title>Cosmic Home Control</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --glow: #00d4ff;
-      --space-bg: #020617;
-      --glass: rgba(15, 23, 42, 0.7);
-      --nebula: linear-gradient(45deg, #1e1b4b, #312e81, #1e1b4b);
+      --bg1: #0d1020;
+      --bg2: #171a2f;
+      --card: rgba(255,255,255,0.08);
+      --card-border: rgba(255,255,255,0.14);
+      --text: #eef2ff;
+      --muted: #aeb6d8;
+      --accent: #c8b6ff;
+      --accent2: #8ec5ff;
+      --good: #9effc7;
+      --shadow: 0 20px 50px rgba(0,0,0,0.28);
     }
+
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      padding: 0;
-      background: var(--space-bg);
-      color: white;
-      font-family: 'Quicksand', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
-      overflow: hidden;
+      font-family: "Manrope", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(200,182,255,0.18), transparent 32%),
+        radial-gradient(circle at top right, rgba(142,197,255,0.16), transparent 28%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      overflow: auto;
     }
 
-    .stars-container {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--nebula);
-      z-index: -1;
+    .wrap {
+      width: min(720px, calc(100vw - 24px));
+      margin: 24px auto;
+      padding-bottom: 24px;
     }
 
-    .star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.5;
-      animation: twinkle var(--duration) infinite ease-in-out;
+    .hero {
+      padding: 20px 18px 8px;
     }
 
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.3; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.2); }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
 
-    .card {
-      background: var(--glass);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 40px;
-      padding: 3rem;
-      width: 380px;
-      text-align: center;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-      position: relative;
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.95rem;
     }
 
-    h1 {
-      font-weight: 300;
-      letter-spacing: 8px;
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin: 14px 0;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .row.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .row.full {
+      grid-template-columns: 1fr;
+    }
+
+    .label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: 0 0 10px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      background: linear-gradient(to right, #fff, var(--glow));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
-    .nova-button {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: none;
-      background: #0f172a;
+    .btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 12px;
+      font: inherit;
+      font-size: 0.95rem;
       cursor: pointer;
-      font-size: 2.5rem;
-      position: relative;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
-      margin-bottom: 2rem;
-      z-index: 1;
-      user-select: none;
+      transition: 0.2s ease;
     }
 
-    .nova-button::before {
-      content: '';
-      position: absolute;
-      top: -5px; left: -5px; right: -5px; bottom: -5px;
-      border-radius: 50%;
-      background: var(--glow);
-      z-index: -1;
-      opacity: 0;
-      transition: 0.5s;
-      filter: blur(20px);
+    .btn:hover, .btn:active {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.1);
     }
 
-    .nova-button.active {
-      background: #fff;
-      transform: scale(1.05);
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(200,182,255,0.28), rgba(142,197,255,0.2));
+      border-color: rgba(200,182,255,0.36);
     }
 
-    .nova-button.active::before {
-      opacity: 0.7;
-      animation: pulse 2s infinite;
+    .btn.good {
+      background: rgba(158,255,199,0.12);
+      border-color: rgba(158,255,199,0.22);
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.6; }
-      50% { transform: scale(1.3); opacity: 0.3; }
-      100% { transform: scale(1); opacity: 0.6; }
+    .btn.warn {
+      background: rgba(255,205,130,0.12);
+      border-color: rgba(255,205,130,0.22);
     }
 
-    .timer-hud {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 25px;
-      padding: 1.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+    .btn.danger {
+      background: rgba(255,140,160,0.12);
+      border-color: rgba(255,140,160,0.22);
     }
 
-    .input-row {
+    .inputs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+
+    .field {
       display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 15px 0;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    .unit { display: flex; flex-direction: column; }
+    .field span {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
 
     input {
-      width: 60px;
-      height: 45px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      color: var(--glow);
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 12px;
+      font: inherit;
       text-align: center;
-      font-size: 1.2rem;
-      font-family: 'Quicksand', sans-serif;
       outline: none;
     }
 
-    label {
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      margin-top: 5px;
-      color: #64748b;
+    .status {
+      margin-top: 14px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.5;
     }
 
-    .btn-row { display: flex; gap: 10px; }
-
-    button.dream-btn {
-      flex: 1;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: transparent;
-      color: white;
-      cursor: pointer;
-      font-size: 0.7rem;
-      letter-spacing: 1px;
-      transition: 0.3s;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    button.dream-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: var(--glow);
-      color: var(--glow);
-    }
-
-    .section-title {
-      margin: 14px 0 6px;
-      font-size: 0.65rem;
-      letter-spacing: 2px;
-      color: #64748b;
-      text-transform: uppercase;
-      text-align: left;
-    }
-
-    #status {
-      margin-top: 2rem;
-      font-size: 0.7rem;
-      color: #475569;
-      letter-spacing: 2px;
-    }
-
-    #connect-overlay {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--space-bg);
-      border-radius: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    .connect {
+      position: sticky;
+      top: 12px;
       z-index: 10;
+    }
+
+    @media (max-width: 600px) {
+      .row, .row.three, .inputs {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 {
+        font-size: 1.45rem;
+      }
     }
   </style>
 </head>
 <body>
-
-  <div class="stars-container" id="stars"></div>
-
-  <div class="card">
-
-    <div id="connect-overlay">
-      <h1>Desk Lamp</h1>
-      <button class="dream-btn" style="max-width: 220px;" onclick="connectBT()">INITIALIZE LINK</button>
+  <div class="wrap">
+    <div class="connect panel">
+      <div class="label">Connection</div>
+      <div class="row full">
+        <button class="btn primary" onclick="connectBT()">Connect Device</button>
+      </div>
+      <div class="status" id="connectStatus">Not connected</div>
     </div>
 
-    <!-- MAIN MODE -->
-    <div id="mainMode">
-      <h1>Desk Lamp</h1>
+    <div class="hero">
+      <h1>Quiet Focus Control</h1>
+      <p>Clean control for lamp, TV, buzzer modes, and RGB light. Designed to scroll smoothly and stay light.</p>
+    </div>
 
-      <button class="nova-button" id="lampBtn" onclick="toggleLamp()">✨</button>
+    <div class="panel">
+      <div class="label">Lamp</div>
+      <div class="row">
+        <button class="btn primary" id="lampBtn" onclick="toggleLamp()">Lamp Toggle</button>
+        <button class="btn" onclick="cycleLampModeFromApp()">Lamp / Color Cycle</button>
+      </div>
 
-      <div class="timer-hud">
-        <div class="input-row">
-          <div class="unit"><input type="number" id="hh" value="0"><label>Hours</label></div>
-          <div class="unit"><input type="number" id="mm" value="0"><label>Min</label></div>
-          <div class="unit"><input type="number" id="ss" value="0"><label>Sec</label></div>
+      <div class="label" style="margin-top:14px;">Lamp Timer</div>
+      <div class="inputs">
+        <div class="field">
+          <span>Hours</span>
+          <input type="number" id="lampH" min="0" value="0">
         </div>
-
-        <div class="btn-row">
-          <button class="dream-btn" onclick="setTimer('ON')">TIMED ON</button>
-          <button class="dream-btn" onclick="setTimer('OFF')">TIMED OFF</button>
+        <div class="field">
+          <span>Minutes</span>
+          <input type="number" id="lampM" min="0" value="0">
         </div>
-
-        <div class="section-title">Buzzer</div>
-        <div class="btn-row">
-          <button class="dream-btn" id="buzToggle" onclick="toggleBuzzer()">BUZZER ON</button>
-          <button class="dream-btn" onclick="testBuzzer()">TEST BUZZ</button>
-        </div>
-
-        <div class="section-title">TV</div>
-        <div class="btn-row">
-          <button class="dream-btn" onclick="openTVMode()">TV MODE</button>
-        </div>
-
-        <div class="section-title">RGB Strip</div>
-        <div class="btn-row">
-          <button class="dream-btn" onclick="rgbSet('R')">RED</button>
-          <button class="dream-btn" onclick="rgbSet('G')">GREEN</button>
-          <button class="dream-btn" onclick="rgbSet('B')">BLUE</button>
-        </div>
-        <div class="btn-row" style="margin-top:10px;">
-          <button class="dream-btn" onclick="rgbSet('P')">PURPLE</button>
-          <button class="dream-btn" onclick="rgbSet('C')">CYAN</button>
-          <button class="dream-btn" onclick="rgbSet('Y')">YELLOW</button>
-        </div>
-        <div class="btn-row" style="margin-top:10px;">
-          <button class="dream-btn" onclick="rgbSet('W')">WHITE</button>
-          <button class="dream-btn" onclick="rgbSet('OFF')">OFF</button>
+        <div class="field">
+          <span>Seconds</span>
+          <input type="number" id="lampS" min="0" value="0">
         </div>
       </div>
 
-      <p id="status">SYSTEM IDLE</p>
+      <div class="row">
+        <button class="btn good" onclick="setLampTimer('ON')">Turn On After</button>
+        <button class="btn warn" onclick="setLampTimer('OFF')">Turn Off After</button>
+      </div>
     </div>
 
-    <!-- TV MODE -->
-    <div id="tvMode" style="display:none;">
-      <h1>TV Control</h1>
+    <div class="panel">
+      <div class="label">Buzzer</div>
+      <div class="row three">
+        <button class="btn danger" onclick="setBuzzerMode('OFF')">Off</button>
+        <button class="btn good" onclick="setBuzzerMode('RANDOM')">Reality Check</button>
+        <button class="btn primary" onclick="armAlarm()">Alarm Mode</button>
+      </div>
 
-      <div class="timer-hud">
-        <div class="btn-row">
-          <button class="dream-btn"
-            onpointerdown="tvHoldStart('UP')"
-            onpointerup="tvHoldStop()"
-            onpointercancel="tvHoldStop()"
-            onpointerleave="tvHoldStop()"
-          >VOLUME +</button>
-
-          <button class="dream-btn"
-            onpointerdown="tvHoldStart('DOWN')"
-            onpointerup="tvHoldStop()"
-            onpointercancel="tvHoldStop()"
-            onpointerleave="tvHoldStop()"
-          >VOLUME -</button>
+      <div class="label" style="margin-top:14px;">Alarm Countdown</div>
+      <div class="inputs">
+        <div class="field">
+          <span>Hours</span>
+          <input type="number" id="alarmH" min="0" value="0">
         </div>
-
-        <div class="btn-row" style="margin-top:10px;">
-          <button class="dream-btn" onclick="tvSend('OC')">OPEN / CLOSE</button>
+        <div class="field">
+          <span>Minutes</span>
+          <input type="number" id="alarmM" min="0" value="5">
         </div>
-
-        <div class="btn-row" style="margin-top:10px;">
-          <button class="dream-btn" onclick="closeTVMode()">BACK</button>
+        <div class="field">
+          <span>Seconds</span>
+          <input type="number" id="alarmS" min="0" value="0">
         </div>
       </div>
 
-      <p id="statusTv" style="margin-top:2rem;font-size:0.7rem;color:#475569;letter-spacing:2px;">
-        TV SYSTEM READY
-      </p>
+      <div class="row">
+        <button class="btn" onclick="testBuzzer()">Test Buzz</button>
+        <button class="btn danger" onclick="setBuzzerMode('OFF')">Stop Alarm / Off</button>
+      </div>
     </div>
 
+    <div class="panel">
+      <div class="label">RGB Strip</div>
+      <div class="row three">
+        <button class="btn" onclick="rgbSet('R')">Red</button>
+        <button class="btn" onclick="rgbSet('G')">Green</button>
+        <button class="btn" onclick="rgbSet('B')">Blue</button>
+      </div>
+      <div class="row three" style="margin-top:10px;">
+        <button class="btn" onclick="rgbSet('P')">Purple</button>
+        <button class="btn" onclick="rgbSet('C')">Cyan</button>
+        <button class="btn" onclick="rgbSet('Y')">Yellow</button>
+      </div>
+      <div class="row" style="margin-top:10px;">
+        <button class="btn" onclick="rgbSet('W')">White</button>
+        <button class="btn danger" onclick="rgbSet('OFF')">Off</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="label">TV</div>
+      <div class="row">
+        <button class="btn"
+          onpointerdown="tvHoldStart('UP')"
+          onpointerup="tvHoldStop()"
+          onpointercancel="tvHoldStop()"
+          onpointerleave="tvHoldStop()">Volume +</button>
+
+        <button class="btn"
+          onpointerdown="tvHoldStart('DOWN')"
+          onpointerup="tvHoldStop()"
+          onpointercancel="tvHoldStop()"
+          onpointerleave="tvHoldStop()">Volume -</button>
+      </div>
+
+      <div class="row full" style="margin-top:10px;">
+        <button class="btn" onclick="tvSend('OC')">Power / Open-Close</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="label">Status</div>
+      <div class="status" id="statusBox">Ready.</div>
+    </div>
   </div>
 
-<script>
-  // Stars
-  const starsContainer = document.getElementById('stars');
-  for (let i = 0; i < 150; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    const size = Math.random() * 3 + 'px';
-    star.style.width = size;
-    star.style.height = size;
-    star.style.left = Math.random() * 100 + '%';
-    star.style.top = Math.random() * 100 + '%';
-    star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
-    starsContainer.appendChild(star);
-  }
+  <script>
+    let btChar = null;
+    let lampOn = true;
+    let buzzerMode = "RANDOM";
 
-  let btChar;
-  let isOn = true;
+    function setStatus(text) {
+      document.getElementById("statusBox").innerText = text;
+    }
 
-  // Buzzer UI state
-  let buzzerEnabledUI = true;
+    function setConnectStatus(text) {
+      document.getElementById("connectStatus").innerText = text;
+    }
 
-  function updateBuzzerButton() {
-    document.getElementById("buzToggle").innerText = buzzerEnabledUI ? "BUZZER ON" : "BUZZER OFF";
-  }
-
-  async function connectBT() {
-    const serviceUuid = "0000ffe0-0000-1000-8000-00805f9b34fb";
-    const charUuid = "0000ffe1-0000-1000-8000-00805f9b34fb";
-    try {
-      const device = await navigator.bluetooth.requestDevice({
-        filters: [{ services: [serviceUuid] }]
-      });
-      const server = await device.gatt.connect();
-      const service = await server.getPrimaryService(serviceUuid);
-      btChar = await service.getCharacteristic(charUuid);
+    async function connectBT() {
+      const serviceUuid = "0000ffe0-0000-1000-8000-00805f9b34fb";
+      const charUuid = "0000ffe1-0000-1000-8000-00805f9b34fb";
 
       try {
-        await btChar.startNotifications();
-        btChar.addEventListener('characteristicvaluechanged', (e) => {
-          let val = new TextDecoder().decode(e.target.value).trim();
-          if (val === "STATE:1") updateUI(true);
-          if (val === "STATE:0") updateUI(false);
-          if (val === "BUZ:1") { buzzerEnabledUI = true; updateBuzzerButton(); }
-          if (val === "BUZ:0") { buzzerEnabledUI = false; updateBuzzerButton(); }
+        const device = await navigator.bluetooth.requestDevice({
+          filters: [{ services: [serviceUuid] }]
         });
-      } catch (_) {}
 
-      document.getElementById('connect-overlay').style.display = 'none';
-      updateUI(true);
-      updateBuzzerButton();
-    } catch (e) {
-      alert("Initialization failed.");
+        const server = await device.gatt.connect();
+        const service = await server.getPrimaryService(serviceUuid);
+        btChar = await service.getCharacteristic(charUuid);
+
+        try {
+          await btChar.startNotifications();
+          btChar.addEventListener("characteristicvaluechanged", (e) => {
+            const val = new TextDecoder().decode(e.target.value).trim();
+
+            if (val === "STATE:1") lampOn = true;
+            if (val === "STATE:0") lampOn = false;
+
+            if (val === "BUZMODE:OFF") buzzerMode = "OFF";
+            if (val === "BUZMODE:RANDOM") buzzerMode = "RANDOM";
+            if (val === "BUZMODE:ALARM") buzzerMode = "ALARM";
+
+            if (val === "BUZALARM:ARMED") setStatus("Alarm armed.");
+            else if (val === "BUZALARM:RINGING") setStatus("Alarm ringing.");
+            else if (val === "BUZALARM:STOPPED") setStatus("Alarm stopped.");
+          });
+        } catch (_) {}
+
+        setConnectStatus("Connected");
+        setStatus("Device connected.");
+      } catch (err) {
+        setConnectStatus("Connection failed");
+        setStatus("Could not connect.");
+      }
     }
-  }
 
-  async function send(msg) {
-    if (!btChar) return;
-    await btChar.writeValue(new TextEncoder().encode(msg + "\n"));
-  }
-
-  // Lamp
-  function toggleLamp() {
-    isOn = !isOn;
-    send(isOn ? "1" : "0");
-    updateUI(isOn);
-  }
-
-  function updateUI(state) {
-    isOn = state;
-    const btn = document.getElementById('lampBtn');
-    const status = document.getElementById('status');
-    if (isOn) {
-      btn.classList.add('active');
-      btn.innerHTML = "☀️";
-      status.innerText = "SYSTEM ACTIVE • EMITTING LIGHT";
-    } else {
-      btn.classList.remove('active');
-      btn.innerHTML = "🌑";
-      status.innerText = "SYSTEM IDLE • ENERGY SAVED";
+    async function send(msg) {
+      if (!btChar) {
+        setStatus("Connect first.");
+        return;
+      }
+      await btChar.writeValue(new TextEncoder().encode(msg + "\n"));
     }
-  }
 
-  function setTimer(type) {
-    const h = parseInt(document.getElementById('hh').value) || 0;
-    const m = parseInt(document.getElementById('mm').value) || 0;
-    const s = parseInt(document.getElementById('ss').value) || 0;
-    const total = (h * 3600) + (m * 60) + s;
-    if (total <= 0) return;
-    send(`${type}:${total}`);
-    document.getElementById('status').innerText = `T-MINUS ${total}s UNTIL ${type}`;
-  }
+    function secondsFromInputs(hId, mId, sId) {
+      const h = parseInt(document.getElementById(hId).value) || 0;
+      const m = parseInt(document.getElementById(mId).value) || 0;
+      const s = parseInt(document.getElementById(sId).value) || 0;
+      return h * 3600 + m * 60 + s;
+    }
 
-  // Buzzer
-  async function toggleBuzzer() {
-    buzzerEnabledUI = !buzzerEnabledUI;
-    await send(buzzerEnabledUI ? "BUZ:1" : "BUZ:0");
-    updateBuzzerButton();
-  }
+    async function toggleLamp() {
+      lampOn = !lampOn;
+      await send(lampOn ? "1" : "0");
+      setStatus(`Lamp ${lampOn ? "on" : "off"}.`);
+    }
 
-  async function testBuzzer() {
-    await send("BUZ:TEST");
-  }
+    async function cycleLampModeFromApp() {
+      // Reuse existing cycle by sending the same IR-style behavior is not available over BT,
+      // so for app we mimic the physical cycle with RGB + lamp states not tracked.
+      // Clean fallback: move through the same sequence visually on hardware with a dedicated BT command not currently present.
+      // Since your original system doesn't have a BT cycle command, this keeps old features untouched.
+      setStatus("Lamp/color cycle is available from the physical lamp button and IR button 0x45.");
+    }
 
-  // Mode switch
-  function openTVMode() {
-    document.getElementById("mainMode").style.display = "none";
-    document.getElementById("tvMode").style.display = "block";
-  }
-  function closeTVMode() {
-    tvHoldStop();
-    document.getElementById("tvMode").style.display = "none";
-    document.getElementById("mainMode").style.display = "block";
-  }
+    async function setLampTimer(type) {
+      const total = secondsFromInputs("lampH", "lampM", "lampS");
+      if (total <= 0) {
+        setStatus("Set a lamp timer first.");
+        return;
+      }
+      await send(`${type}:${total}`);
+      setStatus(`Lamp will turn ${type === "ON" ? "on" : "off"} in ${total} seconds.`);
+    }
 
-  // TV
-  async function tvSend(which) {
-    await send(`TV:${which}`);
-    const st = document.getElementById("statusTv");
-    if (st) st.innerText = `TV COMMAND SENT • ${which}`;
-  }
+    async function setBuzzerMode(mode) {
+      if (mode === "OFF") {
+        buzzerMode = "OFF";
+        await send("BUZ:0");
+        setStatus("Buzzer off. Alarm and random mode stopped.");
+      } else if (mode === "RANDOM") {
+        buzzerMode = "RANDOM";
+        await send("BUZ:1");
+        setStatus("Reality-check random mode enabled.");
+      }
+    }
 
-  async function tvHoldStart(dir) {
-    await send(`TV:HOLD:${dir}`);
-    const st = document.getElementById("statusTv");
-    if (st) st.innerText = `TV HOLD • VOLUME ${dir}`;
-  }
+    async function armAlarm() {
+      const total = secondsFromInputs("alarmH", "alarmM", "alarmS");
+      if (total <= 0) {
+        setStatus("Set an alarm countdown first.");
+        return;
+      }
+      buzzerMode = "ALARM";
+      await send(`BUZ:ALARM:${total}`);
+      setStatus(`Alarm armed for ${total} seconds from now.`);
+    }
 
-  async function tvHoldStop() {
-    await send(`TV:HOLD:STOP`);
-    const st = document.getElementById("statusTv");
-    if (st) st.innerText = `TV HOLD STOPPED`;
-  }
+    async function testBuzzer() {
+      await send("BUZ:TEST");
+      setStatus("Test buzz sent.");
+    }
 
-  // RGB Strip
-  async function rgbSet(mode) {
-    await send(`RGB:${mode}`);
-    // Keep old features unchanged; no status overwrite needed
-  }
-</script>
+    async function rgbSet(mode) {
+      await send(`RGB:${mode}`);
+      setStatus(`RGB set to ${mode}.`);
+    }
 
+    async function tvSend(which) {
+      await send(`TV:${which}`);
+      setStatus("TV command sent.");
+    }
+
+    async function tvHoldStart(dir) {
+      await send(`TV:HOLD:${dir}`);
+      setStatus(`Holding TV volume ${dir}.`);
+    }
+
+    async function tvHoldStop() {
+      await send("TV:HOLD:STOP");
+      setStatus("TV hold stopped.");
+    }
+  </script>
 </body>
 </html>
