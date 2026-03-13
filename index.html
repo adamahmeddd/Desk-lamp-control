@@ -14,199 +14,54 @@
       --glass: rgba(15, 23, 42, 0.7);
       --nebula: linear-gradient(45deg, #1e1b4b, #312e81, #1e1b4b);
     }
-
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       background: var(--space-bg);
-      color: white;
-      font-family: 'Quicksand', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
+      color: white; font-family: 'Quicksand', sans-serif;
+      display:flex; justify-content:center; align-items:center;
+      min-height:100vh; overflow:hidden;
     }
-
-    .stars-container {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--nebula);
-      z-index: -1;
-    }
-
-    .star {
-      position: absolute;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.5;
-      animation: twinkle var(--duration) infinite ease-in-out;
-    }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.3; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.2); }
-    }
+    .stars-container { position: fixed; top:0; left:0; width:100%; height:100%; background:var(--nebula); z-index:-1; }
+    .star { position:absolute; background:white; border-radius:50%; opacity:0.5; animation: twinkle var(--duration) infinite ease-in-out; }
+    @keyframes twinkle { 0%,100%{opacity:0.3; transform:scale(1);} 50%{opacity:1; transform:scale(1.2);} }
 
     .card {
       background: var(--glass);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 40px;
-      padding: 3rem;
-      width: 390px;
-      text-align: center;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+      padding: 2.5rem;
+      width: 380px;
+      text-align:center;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8);
       position: relative;
       max-height: 90vh;
       overflow-y: auto;
     }
 
-    h1 {
-      font-weight: 300;
-      letter-spacing: 8px;
-      text-transform: uppercase;
-      font-size: 1.15rem;
-      margin-bottom: 2rem;
-      background: linear-gradient(to right, #fff, var(--glow));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    h1 { font-weight:300; letter-spacing:8px; font-size:1.05rem; margin-bottom:1.25rem; background:linear-gradient(to right,#fff,var(--glow)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 
-    .nova-button {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: none;
-      background: #0f172a;
-      cursor: pointer;
-      font-size: 2.5rem;
-      position: relative;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
-      margin-bottom: 2rem;
-      z-index: 1;
-      user-select: none;
-    }
+    .nova-button { width:120px; height:120px; border-radius:50%; border:none; background:#0f172a; cursor:pointer; font-size:2.5rem; margin-bottom:1rem; box-shadow: inset 0 0 20px rgba(255,255,255,0.05); }
+    .nova-button.active { background:#fff; transform:scale(1.05); }
 
-    .nova-button::before {
-      content: '';
-      position: absolute;
-      top: -5px; left: -5px; right: -5px; bottom: -5px;
-      border-radius: 50%;
-      background: var(--glow);
-      z-index: -1;
-      opacity: 0;
-      transition: 0.5s;
-      filter: blur(20px);
-    }
+    .timer-hud { background: rgba(255,255,255,0.03); border-radius:20px; padding:1rem; border:1px solid rgba(255,255,255,0.05); }
+    .input-row { display:flex; justify-content:center; gap:12px; margin:12px 0; }
+    .unit { display:flex; flex-direction:column; }
+    input { width:60px; height:42px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:var(--glow); text-align:center; font-size:1rem; outline:none; }
+    label { font-size:0.6rem; color:#64748b; margin-top:6px; text-transform:uppercase; }
 
-    .nova-button.active {
-      background: #fff;
-      transform: scale(1.05);
-    }
-
-    .nova-button.active::before {
-      opacity: 0.7;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.6; }
-      50% { transform: scale(1.3); opacity: 0.3; }
-      100% { transform: scale(1); opacity: 0.6; }
-    }
-
-    .timer-hud {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 25px;
-      padding: 1.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .input-row {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin: 15px 0;
-    }
-
-    .unit { display: flex; flex-direction: column; }
-
-    input {
-      width: 60px;
-      height: 45px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      color: var(--glow);
-      text-align: center;
-      font-size: 1.1rem;
-      font-family: 'Quicksand', sans-serif;
-      outline: none;
-    }
-
-    label {
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      margin-top: 5px;
-      color: #64748b;
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
+    .btn-row { display:flex; gap:10px; margin-top:8px; }
     button.dream-btn {
-      flex: 1;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: transparent;
-      color: white;
-      cursor: pointer;
-      font-size: 0.7rem;
-      letter-spacing: 1px;
-      transition: 0.3s;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
+      flex:1; padding:10px; border-radius:10px;
+      border:1px solid rgba(255,255,255,0.1); background:transparent;
+      color:white; cursor:pointer; font-size:0.8rem; letter-spacing:1px;
     }
+    button.dream-btn:hover { background: rgba(255,255,255,0.06); border-color:var(--glow); color:var(--glow); }
 
-    button.dream-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: var(--glow);
-      color: var(--glow);
-    }
+    .section-title { margin:12px 0 6px; font-size:0.65rem; color:#64748b; text-transform:uppercase; text-align:left; }
 
-    .section-title {
-      margin: 14px 0 6px;
-      font-size: 0.65rem;
-      letter-spacing: 2px;
-      color: #64748b;
-      text-transform: uppercase;
-      text-align: left;
-    }
-
-    #status, #statusTv {
-      margin-top: 2rem;
-      font-size: 0.7rem;
-      color: #475569;
-      letter-spacing: 2px;
-    }
-
-    #connect-overlay {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--space-bg);
-      border-radius: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
+    #status, #statusTv { margin-top:1rem; font-size:0.75rem; color:#a2b0c7; letter-spacing:1px; }
+    #connect-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:var(--space-bg); border-radius:40px; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:10; }
   </style>
 </head>
 <body>
@@ -216,7 +71,7 @@
   <div class="card">
     <div id="connect-overlay">
       <h1>Adam's Room</h1>
-      <button class="dream-btn" style="max-width: 220px;" onclick="connectBT()">INITIALIZE LINK</button>
+      <button class="dream-btn" style="max-width:200px" onclick="connectBT()">INITIALIZE LINK</button>
     </div>
 
     <div id="mainMode">
@@ -242,7 +97,7 @@
           <button class="dream-btn" onclick="testBuzzer()">TEST BUZZ</button>
         </div>
 
-        <div class="input-row">
+        <div class="input-row" style="margin-top:10px;">
           <div class="unit"><input type="number" id="ahh" value="0"><label>Alarm H</label></div>
           <div class="unit"><input type="number" id="amm" value="0"><label>Alarm M</label></div>
           <div class="unit"><input type="number" id="ass" value="0"><label>Alarm S</label></div>
@@ -250,28 +105,12 @@
 
         <div class="btn-row">
           <button class="dream-btn" onclick="armAlarm()">ALARM MODE</button>
-          <button class="dream-btn" onclick="stopAlarm()">STOP ALARM</button>
+          <!-- STOP ALARM button removed as requested -->
         </div>
 
         <div class="section-title">TV</div>
         <div class="btn-row">
           <button class="dream-btn" onclick="openTVMode()">TV MODE</button>
-        </div>
-
-        <div class="section-title">RGB Strip</div>
-        <div class="btn-row">
-          <button class="dream-btn" onclick="rgbSet('R')">RED</button>
-          <button class="dream-btn" onclick="rgbSet('G')">GREEN</button>
-          <button class="dream-btn" onclick="rgbSet('B')">BLUE</button>
-        </div>
-        <div class="btn-row">
-          <button class="dream-btn" onclick="rgbSet('P')">PURPLE</button>
-          <button class="dream-btn" onclick="rgbSet('C')">CYAN</button>
-          <button class="dream-btn" onclick="rgbSet('Y')">YELLOW</button>
-        </div>
-        <div class="btn-row">
-          <button class="dream-btn" onclick="rgbSet('W')">WHITE</button>
-          <button class="dream-btn" onclick="rgbSet('OFF')">OFF</button>
         </div>
       </div>
 
@@ -296,11 +135,11 @@
             onpointerleave="tvHoldStop()">VOLUME -</button>
         </div>
 
-        <div class="btn-row">
+        <div class="btn-row" style="margin-top:8px;">
           <button class="dream-btn" onclick="tvSend('OC')">OPEN / CLOSE</button>
         </div>
 
-        <div class="btn-row">
+        <div class="btn-row" style="margin-top:8px;">
           <button class="dream-btn" onclick="closeTVMode()">BACK</button>
         </div>
       </div>
@@ -310,41 +149,37 @@
   </div>
 
 <script>
+  // background stars (cosmetic)
   const starsContainer = document.getElementById('stars');
-  for (let i = 0; i < 150; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    const size = Math.random() * 3 + 'px';
-    star.style.width = size;
-    star.style.height = size;
-    star.style.left = Math.random() * 100 + '%';
-    star.style.top = Math.random() * 100 + '%';
-    star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
-    starsContainer.appendChild(star);
+  for (let i=0;i<120;i++){
+    const s = document.createElement('div');
+    s.className='star';
+    const size = Math.random()*3 + 'px';
+    s.style.width = s.style.height = size;
+    s.style.left = Math.random()*100 + '%';
+    s.style.top = Math.random()*100 + '%';
+    s.style.setProperty('--duration', Math.random()*3 + 2 + 's');
+    starsContainer.appendChild(s);
   }
 
-  let btChar;
+  let btChar = null;
   let isOn = true;
   let buzzerEnabledUI = true;
 
-  function updateBuzzerButton() {
-    document.getElementById("buzToggle").innerText = buzzerEnabledUI ? "BUZZER ON" : "BUZZER OFF";
-  }
+  function updateBuzzerButton(){ document.getElementById('buzToggle').innerText = buzzerEnabledUI ? 'BUZZER ON' : 'BUZZER OFF'; }
 
   async function connectBT() {
     const serviceUuid = "0000ffe0-0000-1000-8000-00805f9b34fb";
     const charUuid = "0000ffe1-0000-1000-8000-00805f9b34fb";
     try {
-      const device = await navigator.bluetooth.requestDevice({
-        filters: [{ services: [serviceUuid] }]
-      });
+      const device = await navigator.bluetooth.requestDevice({ filters:[{services:[serviceUuid]}] });
       const server = await device.gatt.connect();
       const service = await server.getPrimaryService(serviceUuid);
       btChar = await service.getCharacteristic(charUuid);
 
       try {
         await btChar.startNotifications();
-        btChar.addEventListener('characteristicvaluechanged', (e) => {
+        btChar.addEventListener('characteristicvaluechanged', (e)=>{
           let val = new TextDecoder().decode(e.target.value).trim();
           if (val === "STATE:1") updateUI(true);
           if (val === "STATE:0") updateUI(false);
@@ -352,111 +187,84 @@
           if (val === "BUZ:0") { buzzerEnabledUI = false; updateBuzzerButton(); }
           if (val === "BUZALARM:ARMED") document.getElementById('status').innerText = "ALARM ARMED";
           if (val === "BUZALARM:RINGING") document.getElementById('status').innerText = "ALARM RINGING";
-          if (val === "BUZALARM:STOPPED") document.getElementById('status').innerText = "ALARM STOPPED";
         });
-      } catch (_) {}
+      } catch(_) {}
 
-      document.getElementById('connect-overlay').style.display = 'none';
+      document.getElementById('connect-overlay').style.display='none';
       updateUI(true);
       updateBuzzerButton();
-    } catch (e) {
-      alert("Initialization failed.");
-    }
+    } catch (err) { alert('Initialization failed: ' + err); }
   }
 
-  async function send(msg) {
+  async function send(msg){
     if (!btChar) return;
     await btChar.writeValue(new TextEncoder().encode(msg + "\n"));
   }
 
-  function toggleLamp() {
+  // Lamp
+  function toggleLamp(){
     isOn = !isOn;
     send(isOn ? "1" : "0");
     updateUI(isOn);
   }
-
-  function updateUI(state) {
+  function updateUI(state){
     isOn = state;
     const btn = document.getElementById('lampBtn');
     const status = document.getElementById('status');
-    if (isOn) {
-      btn.classList.add('active');
-      btn.innerHTML = "☀️";
-      status.innerText = "SYSTEM ACTIVE • EMITTING LIGHT";
-    } else {
-      btn.classList.remove('active');
-      btn.innerHTML = "🌑";
-      status.innerText = "SYSTEM IDLE • ENERGY SAVED";
-    }
+    if (isOn) { btn.classList.add('active'); btn.innerHTML = "☀️"; status.innerText = "SYSTEM ACTIVE • EMITTING LIGHT"; }
+    else { btn.classList.remove('active'); btn.innerHTML = "🌑"; status.innerText = "SYSTEM IDLE • ENERGY SAVED"; }
   }
 
-  function setTimer(type) {
+  function setTimer(type){
     const h = parseInt(document.getElementById('hh').value) || 0;
     const m = parseInt(document.getElementById('mm').value) || 0;
     const s = parseInt(document.getElementById('ss').value) || 0;
-    const total = (h * 3600) + (m * 60) + s;
+    const total = (h*3600)+(m*60)+s;
     if (total <= 0) return;
     send(`${type}:${total}`);
     document.getElementById('status').innerText = `T-MINUS ${total}s UNTIL ${type}`;
   }
 
-  async function toggleBuzzer() {
+  // Buzzer
+  async function toggleBuzzer(){
     buzzerEnabledUI = !buzzerEnabledUI;
     await send(buzzerEnabledUI ? "BUZ:1" : "BUZ:0");
     updateBuzzerButton();
   }
 
-  async function testBuzzer() {
+  async function testBuzzer(){
     await send("BUZ:TEST");
   }
 
-  async function armAlarm() {
+  async function armAlarm(){
     const h = parseInt(document.getElementById('ahh').value) || 0;
     const m = parseInt(document.getElementById('amm').value) || 0;
     const s = parseInt(document.getElementById('ass').value) || 0;
-    const total = (h * 3600) + (m * 60) + s;
+    const total = (h*3600)+(m*60)+s;
     if (total <= 0) return;
     await send(`BUZ:ALARM:${total}`);
     document.getElementById('status').innerText = `ALARM IN ${total}s`;
   }
 
-  async function stopAlarm() {
-    await send("BUZ:ALARM:STOP");
-  }
+  // TV
+  function openTVMode(){ document.getElementById('mainMode').style.display='none'; document.getElementById('tvMode').style.display='block'; }
+  function closeTVMode(){ tvHoldStop(); document.getElementById('tvMode').style.display='none'; document.getElementById('mainMode').style.display='block'; }
 
-  function openTVMode() {
-    document.getElementById("mainMode").style.display = "none";
-    document.getElementById("tvMode").style.display = "block";
-  }
-
-  function closeTVMode() {
-    tvHoldStop();
-    document.getElementById("tvMode").style.display = "none";
-    document.getElementById("mainMode").style.display = "block";
-  }
-
-  async function tvSend(which) {
+  async function tvSend(which){
     await send(`TV:${which}`);
-    const st = document.getElementById("statusTv");
-    if (st) st.innerText = `TV COMMAND SENT • ${which}`;
+    const st = document.getElementById('statusTv'); if (st) st.innerText = `TV COMMAND SENT • ${which}`;
   }
 
-  async function tvHoldStart(dir) {
+  async function tvHoldStart(dir){
     await send(`TV:HOLD:${dir}`);
-    const st = document.getElementById("statusTv");
-    if (st) st.innerText = `TV HOLD • VOLUME ${dir}`;
+    const st = document.getElementById('statusTv'); if (st) st.innerText = `TV HOLD • VOLUME ${dir}`;
   }
 
-  async function tvHoldStop() {
-    await send(`TV:HOLD:STOP`);
-    const st = document.getElementById("statusTv");
-    if (st) st.innerText = `TV HOLD STOPPED`;
+  async function tvHoldStop(){
+    await send('TV:HOLD:STOP');
+    const st = document.getElementById('statusTv'); if (st) st.innerText = `TV HOLD STOPPED`;
   }
 
-  async function rgbSet(mode) {
-    await send(`RGB:${mode}`);
-  }
 </script>
-
 </body>
 </html>
